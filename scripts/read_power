@@ -1,0 +1,29 @@
+#!/bin/bash
+
+export BROKER_LIST=localhost:9092
+
+if [ ! -z ${1} ]; then
+  export BROKER_LIST=${1}
+fi
+
+echo "Sending to broker ${BROKER_LIST}"
+
+
+kafka-avro-console-producer  \
+--broker-list ${BROKER_LIST} \
+--topic raw_power              \
+--property value.schema='
+{
+  "type": "record",
+  "name": "myrecord",
+  "fields": [
+    {
+      "name": "hour",
+      "type": "float"
+    },
+     {
+      "name": "kwh",
+      "type": "float"
+    }
+  ]
+}'
